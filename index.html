@@ -42,7 +42,7 @@
                 
 				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 5000 );
                 camera.position.z = 1800;
-                camera.position.y = 400;
+                camera.position.y = 1000;
                 
                 controls = new THREE.OrbitControls( camera );
                 controls.update();
@@ -69,10 +69,10 @@
 				scene.add(floor );
 
 
-                CreateObject(house,'objets/maison/maison.dae',0.4,0.4,0.4,-520,-300,0,0);
-                CreateObject(pumpkin,'objets/citrouille/citrouille.dae',10,10,10,-420,-300,0,0);
-                CreateObject(caravan, 'objets/roulotte/roulotte.dae',70,70,70,-220,-400,0,-200);
-                CreateObject(bat, 'objets/bat/bat.dae',200,200,200,-120,-500,50,0);
+                CreateObject(house,'objets/maison/maison.dae',0.4,0.4,0.4,-300,0,-520,0);
+                CreateObject(pumpkin,'objets/citrouille/citrouille.dae',10,10,10,-300,0,-420,0);    
+                CreateObject(caravan, 'objets/roulotte/roulotte.dae',70,70,70,-400,0,-220,-200);
+                CreateObject(bat, 'objets/bat/bat.dae',500,500,500,-500,300,-120,0);
                 
 				var ambientLight = new THREE.AmbientLight( 0xcccccc, 0.4 );
 				scene.add( ambientLight );
@@ -95,7 +95,7 @@
 			}
             
             
-            function CreateObject(object1, src,size1, size2, size3, posZ, posX,posY, rotation){
+            function CreateObject(object1, src,size1, size2, size3, posX,posY, posZ, rotation){
                 
                 // loading manager
                 var loadingManager = new THREE.LoadingManager( function () {
@@ -106,9 +106,9 @@
 				loader.load( src, function ( collada ) {
 					object1 = collada.scene;
                     object1.scale.set(size1,size2,size3); //Objet permettant de donner une taille à la maison
-                    object1.position.z = posZ;
                     object1.position.x = posX;
                     object1.position.y = posY;
+                    object1.position.z = posZ;
                     object1.rotation.z = rotation;
                     
 				} );
