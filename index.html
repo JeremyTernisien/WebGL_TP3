@@ -67,18 +67,18 @@
                 var textureFloor = new THREE.TextureLoader().load('objets/sol/sol.jpg');
                 var material = new THREE.MeshBasicMaterial({ map: textureFloor});
                 
-                var floor = new THREE.Mesh( geometry, material );
+                /*var floor = new THREE.Mesh( geometry, material );
                 floor.position.set( 0, -2, 0 );//on descend le sol à -70 pour que la pyramide ne soit pas coupé par le sol
 				floor.rotation.x = - Math.PI * 0.5;
 				floor.receiveShadow = true;
-				scene.add(floor );
+				scene.add(floor );*/
 
 
+                CreateObject(grass,'objets/herbe/grass.dae',90,90,20,-150,-40,-370,0);
                 CreateObject(house,'objets/maison/maison.dae',0.4,0.4,0.4,-300,0,-520,0);
-                CreateObject(pumpkin,'objets/citrouille/citrouille.dae',10,10,10,-300,0,-420,0);    
+                CreateObject(pumpkin,'objets/citrouille/citrouille.dae',10,10,10,-70,0,-250,0);    
                 CreateObject(caravan, 'objets/roulotte/roulotte.dae',70,70,70,-400,0,-220,-200);
-                CreateObject(bat, 'objets/bat/bat.dae',500,500,500,-500,300,-120,0);
-                CreateObject(grass,'objets/herbe/grass.dae',100,100,20,650,0,-300,0);
+                CreateObject(bat, 'objets/bat/bat.dae',500,500,500,0,500,220,0);
                 
               /*  for (var i = 1; i <= 4; i++) {
 
@@ -90,7 +90,7 @@
                 	}                	
                 }*/
 
-                /*//le son ambiant
+                //le son ambiant
                 var listener = new THREE.AudioListener();
 				camera.add( listener );
 
@@ -104,7 +104,7 @@
 					sound.setLoop( true );
 					sound.setVolume( 0.5 );
 					sound.play();
-				});*/
+				});
 
 				createSoundSphere(-300,0,-520,createSound('musiques/thriller.mp3'));
 				
@@ -217,8 +217,7 @@
 
 					//Ajouter la lumière à la scène
 					return spotlightName;
-			}
-            
+			}            
             init();
 			animate();           
 		</script>
