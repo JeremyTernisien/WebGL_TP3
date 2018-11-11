@@ -20,9 +20,10 @@
 			if ( WEBGL.isWebGLAvailable() === false ) {
 				document.body.appendChild( WEBGL.getWebGLErrorMessage() );
 			}
-			var container, stats, clock;
-			var camera, scene, renderer,house,pumpkin,caravan,bat;
+			var container, stats, clock,controls;
+			var camera, scene, renderer,house,pumpkin,caravan,bat, grass;
 			
+
 			function init() {
                 
                  createLigthspot(34,100,-1);
@@ -43,9 +44,13 @@
 				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 5000 );
                 camera.position.z = 1800;
                 camera.position.y = 1000;
-                
+
                 controls = new THREE.OrbitControls( camera );
-                controls.update();
+
+                
+                
+
+                
 
                 
 				scene = new THREE.Scene();
@@ -73,7 +78,40 @@
                 CreateObject(pumpkin,'objets/citrouille/citrouille.dae',10,10,10,-300,0,-420,0);    
                 CreateObject(caravan, 'objets/roulotte/roulotte.dae',70,70,70,-400,0,-220,-200);
                 CreateObject(bat, 'objets/bat/bat.dae',500,500,500,-500,300,-120,0);
+                CreateObject(grass,'objets/herbe/grass.dae',100,100,20,650,0,-300,0);
                 
+              /*  for (var i = 1; i <= 4; i++) {
+
+                	if(i>2)
+                	{
+                		CreateObject("grass"+i,'objets/herbe/grass.dae',100,100,20,650,0,-(i*300),0);
+                	} else {
+                		CreateObject("grass"+i,'objets/herbe/grass.dae',100,100,20,650,0,i*300,0);
+                	}                	
+                }*/
+
+                /*//le son ambiant
+                var listener = new THREE.AudioListener();
+				camera.add( listener );
+
+				// create a global audio source
+				var sound = new THREE.Audio( listener );
+
+				// load a sound and set it as the Audio object's buffer
+				var audioLoader = new THREE.AudioLoader();
+				audioLoader.load( 'musiques/ambiance.mp3', function( buffer ) {
+					sound.setBuffer( buffer );
+					sound.setLoop( true );
+					sound.setVolume( 0.5 );
+					sound.play();
+				});*/
+
+				createSoundSphere(-300,0,-520,createSound('musiques/thriller.mp3'));
+				
+
+				
+
+
 				var ambientLight = new THREE.AmbientLight( 0xcccccc, 0.4 );
 				scene.add( ambientLight );
                 
@@ -94,6 +132,34 @@
 				window.addEventListener( 'resize', onWindowResize, false );
 			}
             
+			function createSound(src)
+			{
+				var listener = new THREE.AudioListener();
+				camera.add( listener );
+
+				// create a global audio source
+				var sound = new THREE.PositionalAudio( listener );
+
+				// load a sound and set it as the PositionalAudio object's buffer
+				var audioLoader = new THREE.AudioLoader();
+				audioLoader.load(src, function( buffer ) {
+					sound.setBuffer( buffer );
+					sound.setMaxDistance( 20 );
+					sound.play();
+				});
+
+				return sound;
+			}
+
+            function createSoundSphere(posX,posY,posZ,soundObject)
+				{
+					var sphere = new THREE.SphereGeometry( 1, 1, 1 );
+					var material = new THREE.MeshPhongMaterial( { color: 0xff2200 } );
+					var mesh = new THREE.Mesh( sphere, material );
+					mesh.position.set(posX,posY,posZ);
+					scene.add( mesh );
+					mesh.add( soundObject );
+				}
             
             function CreateObject(object1, src,size1, size2, size3, posX,posY, posZ, rotation){
                 
@@ -109,10 +175,8 @@
                     object1.position.x = posX;
                     object1.position.y = posY;
                     object1.position.z = posZ;
-                    object1.rotation.z = rotation;
-                    
-				} );
-                
+                    object1.rotation.z = rotation;                    
+				} );                
             }
               
             
@@ -124,15 +188,14 @@
             
             
 			function animate() {
-				requestAnimationFrame( animate );
-				render();
+				requestAnimationFrame( animate );				
+				controls.update();
 				stats.update();
-			}
-            
-            
-			function render() {
 				renderer.render( scene, camera );
 			}
+            
+            
+			
             
             
             function createLigthspot(x,y,z) {
@@ -157,8 +220,7 @@
 			}
             
             init();
-			animate();
-            render();
+			animate();           
 		</script>
 	</body>
 </html>
