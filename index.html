@@ -22,7 +22,7 @@
 			}
 			var container, stats, clock,controls;
 			var camera, scene, renderer,house,pumpkin,caravan,bat, grass, skeleton,ghost;
-			var posBatX = 0,posBatY = 500,posBatZ = 220,rotBatZ = 0;
+			
 			
 
 			function init() {
@@ -62,15 +62,15 @@
 
 
                 CreateObject(grass,'objets/herbe/grass.dae',300,250,40,0,-40,0,0);
-                CreateObject(house,'objets/maison/maison.dae',0.8,0.8,0.8,-500,0,-1200,0,createSound('musiques/thriller.mp3'));
-                CreateObject(pumpkin,'objets/citrouille/citrouille.dae',20,20,20,-70,0,-250,0);    
-                CreateObject(caravan, 'objets/roulotte/roulotte.dae',140,140,140,1500,0,-220,-200);
-                CreateObject(skeleton, 'objets/skeleton/skeleton.dae',140,140,100,1600,0,-420,350,createSound('musiques/scream.mp3'));
-                CreateObject(ghost, 'objets/ghost/ghost.dae',20,20,20,-1200,0,700,-350,createSound('musiques/ghostBusters.mp3'));
-                CreateObject(bat, 'objets/bat/bat.dae',500,500,500,posBatX,posBatY,posBatZ,rotBatZ);
+                CreateObject(house,'objets/maison/maison.dae',0.8,0.8,0.8,-500,0,-1200,0,createSound('musiques/door.mp3'));
+                CreateObject(pumpkin,'objets/citrouille/citrouille.dae',20,20,20,-50,0,-250,0);    
+                CreateObject(caravan, 'objets/roulotte/roulotte.dae',140,140,140,2300,0,-220,-200);
+                CreateObject(skeleton, 'objets/skeleton/skeleton.dae',140,140,100,2400,0,-420,-350,createSound('musiques/scream.mp3'));
+                CreateObject(ghost, 'objets/ghost/ghost.dae',20,20,20,-1200,0,700,250,createSound('musiques/ghostBusters.mp3'));
+                CreateObject(bat, 'objets/bat/bat.dae',500,500,500,0,500,520,0,createSound('musiques/corbeau.mp3'));
 
                 //le son ambiant
-               /*var listener = new THREE.AudioListener();
+               var listener = new THREE.AudioListener();
 				camera.add( listener );
 
 				// create a global audio source
@@ -81,9 +81,16 @@
 				audioLoader.load( 'musiques/ambiance.mp3', function( buffer ) {
 					sound.setBuffer( buffer );
 					sound.setLoop( true );
-					sound.setVolume( 0.5 );
+					sound.setVolume( 0.02 );
 					sound.play();
-				});*/
+				});
+
+				var textureLune = new THREE.TextureLoader().load('textures/moonTexture.jpg');
+		        var luneSphere = new THREE.SphereGeometry(100, 100, 50);
+		        var material = new THREE.MeshBasicMaterial({ map: textureLune });
+		        lune = new THREE.Mesh(luneSphere, material);
+		        lune.position.set(-1400,1100,-1400); 
+		        scene.add(lune);
 
 				var ambientLight = new THREE.AmbientLight( 0xcccccc, 0.4 );
 				scene.add( ambientLight );
@@ -119,8 +126,8 @@
 				audioLoader.load(src, function( buffer ) {
 					sound.setBuffer( buffer );
 					sound.setLoop( true );
-					sound.setRefDistance( 5 );
-					sound.setMaxDistance( 600 );
+					sound.setVolume( 10 );
+					sound.setRefDistance( 0.5 );
 					sound.play();
 				});
 				return sound;
@@ -156,11 +163,6 @@
             
 			function animate() {
 				requestAnimationFrame( animate );
-				posBatX++;
-				posBatZ++;
-				rotBatZ += 0.01;	
-
-
 				controls.update();
 				stats.update();
 				renderer.render( scene, camera );
