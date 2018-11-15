@@ -21,7 +21,7 @@
 				document.body.appendChild( WEBGL.getWebGLErrorMessage() );
 			}
 			var container, stats, clock,controls;
-			var camera, scene, renderer,house,pumpkin,caravan,bat, grass, skeleton,ghost;
+			var camera, scene, renderer,house,pumpkin,caravan,bat, grass, skeleton,ghost,floor_lamp,floor_lamp2,tree;
 			
 			
 
@@ -44,7 +44,7 @@
                 
 				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 10000 );
                 camera.position.z = 1500;
-                camera.position.y = 20;
+                camera.position.y = 100;
 
                 controls = new THREE.OrbitControls( camera );         
 
@@ -68,6 +68,9 @@
                 CreateObject(skeleton, 'objets/skeleton/skeleton.dae',140,140,100,2400,0,-420,-350,createSound('musiques/scream.mp3'));
                 CreateObject(ghost, 'objets/ghost/ghost.dae',20,20,20,-1200,0,700,250,createSound('musiques/ghostBusters.mp3'));
                 CreateObject(bat, 'objets/bat/bat.dae',500,500,500,0,500,520,0,createSound('musiques/corbeau.mp3'));
+                CreateObject(floor_lamp, 'objets/lampadaire/lamp.dae',50,50,50,-500,190,-520,0);
+                CreateObject(floor_lamp2, 'objets/lampadaire2/lamp.dae',50,50,50,500,190,-520,0);
+//                CreateObject(tree, 'objets/arbres/arbre1/tree.dae',20,20,20,-800,80,-620,0);
 
                 //le son ambiant
                var listener = new THREE.AudioListener();
@@ -126,7 +129,7 @@
 				audioLoader.load(src, function( buffer ) {
 					sound.setBuffer( buffer );
 					sound.setLoop( true );
-					sound.setVolume( 10 );
+					sound.setVolume( 200 );
 					sound.setRefDistance( 0.5 );
 					sound.play();
 				});
