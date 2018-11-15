@@ -7,7 +7,7 @@
 	</head>
 	<body>
 
-        
+
         <div id="container"></div>
         <script src="../three.js-master/build/three.js"></script>
         	<script src="../three.js-master/examples/js/controls/OrbitControls.js"></script>
@@ -22,13 +22,13 @@
 			}
 			var container, stats, clock,controls;
 			var camera, scene, renderer,house,pumpkin,caravan,bat, grass, skeleton,ghost,floor_lamp,floor_lamp2,tree;
-			
-			
+
+
 
 			function init() {
-                
+
                  createLigthspot(34,100,-1);
-                
+
                 renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
@@ -38,32 +38,32 @@
 
 				renderer.gammaInput = true;
 				renderer.gammaOutput = true;
-                
-                
+
+
 				container = document.getElementById( 'container' );
-                
+
 				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 10000 );
                 camera.position.z = 1500;
                 camera.position.y = 100;
 
-                controls = new THREE.OrbitControls( camera );         
+                controls = new THREE.OrbitControls( camera );
 
-                
+
 				scene = new THREE.Scene();
 				clock = new THREE.Clock();
-                
+
                 var material = new THREE.MeshPhongMaterial( { color: 0x808080, dithering: true } );
 
 				var geometry = new THREE.PlaneBufferGeometry( 1000, 1000 );
-                
+
                 var material = new THREE.MeshPhongMaterial( { color: 0x808080, dithering: true } );
 
-                var geometry = new THREE.PlaneBufferGeometry( 2000, 2000 );		
+                var geometry = new THREE.PlaneBufferGeometry( 2000, 2000 );
 
 
                 CreateObject(grass,'objets/herbe/grass.dae',300,250,40,0,-40,0,0);
                 CreateObject(house,'objets/maison/maison.dae',0.8,0.8,0.8,-500,0,-1200,0,createSound('musiques/door.mp3'));
-                CreateObject(pumpkin,'objets/citrouille/citrouille.dae',20,20,20,-50,0,-250,0);    
+                CreateObject(pumpkin,'objets/citrouille/citrouille.dae',20,20,20,-50,0,-250,0);
                 CreateObject(caravan, 'objets/roulotte/roulotte.dae',140,140,140,2300,0,-220,-200);
                 CreateObject(skeleton, 'objets/skeleton/skeleton.dae',140,140,100,2400,0,-420,-350,createSound('musiques/scream.mp3'));
                 CreateObject(ghost, 'objets/ghost/ghost.dae',20,20,20,-1200,0,700,250,createSound('musiques/ghostBusters.mp3'));
@@ -92,29 +92,31 @@
 		        var luneSphere = new THREE.SphereGeometry(100, 100, 50);
 		        var material = new THREE.MeshBasicMaterial({ map: textureLune });
 		        lune = new THREE.Mesh(luneSphere, material);
-		        lune.position.set(-1400,1100,-1400); 
+		        lune.position.set(-1400,1100,-1400);
 		        scene.add(lune);
 
 				var ambientLight = new THREE.AmbientLight( 0xcccccc, 0.4 );
 				scene.add( ambientLight );
-                
-				var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.8 );
-				directionalLight.position.set( 1, 1, 0 ).normalize();
-				scene.add( directionalLight );
+
+				var greenLigth = createLigthspot(-50,0,1050,3000,2.5,0xfff00);
+				scene.add(greenLigth);
+
+				var moonLigth = createLigthspot(-1400,1100,-1400,10000,2,0xfffff);
+				scene.add(moonLigth);
 				//
 
-				
+
 				//
 				stats = new Stats();
 				container.appendChild( stats.dom );
 				//
-                
-                
+
+
 				controls.update();
-                
+
 				window.addEventListener( 'resize', onWindowResize, false );
 			}
-            
+
 
 			function createSound(src)
 			{
@@ -135,9 +137,9 @@
 				});
 				return sound;
 			}
-            
+
             function CreateObject(object1, src,size1, size2, size3, posX,posY, posZ, rotation,audio){
-                
+
                 // loading manager
                 var loadingManager = new THREE.LoadingManager( function () {
 					scene.add( object1 );
@@ -150,53 +152,53 @@
                     object1.position.x = posX;
                     object1.position.y = posY;
                     object1.position.z = posZ;
-                    object1.rotation.z = rotation;  
-                    if(audio) 
-                   		object1.add(audio);                 
-				} );  
+                    object1.rotation.z = rotation;
+                    if(audio)
+                   		object1.add(audio);
+				} );
             }
-              
-            
+
+
 			function onWindowResize() {
 				camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
 				renderer.setSize( window.innerWidth, window.innerHeight );
 			}
-            
-            
+
+
 			function animate() {
 				requestAnimationFrame( animate );
 				controls.update();
 				stats.update();
 				renderer.render( scene, camera );
 			}
-            
-            
-			
-            
-            
-            function createLigthspot(x,y,z) {
-					var spotlightName = new THREE.SpotLight( 0xffffff, 1 );
-					//Parametre de la lumière
-					spotlightName.position.set( x, y, z);
-					spotlightName.angle = Math.PI / 4;
-					spotlightName.penumbra = 0.05;
-					spotlightName.decay = 2;
-					spotlightName.distance = 1000;
 
-					//Parametre de l'ombre
-					spotlightName.castShadow = true;
-					spotlightName.shadow.mapSize.width = 1024;
-					spotlightName.shadow.mapSize.height = 1024;
-					//Zone d'ombre
-					spotlightName.shadow.camera.near = 10;
-					spotlightName.shadow.camera.far = 2000;
 
-					//Ajouter la lumière à la scène
-					return spotlightName;
-			}            
+
+
+
+			function createLigthspot(x,y,z,dist,corner,color) {
+				var spotlightName = new THREE.SpotLight( color, 1 );
+				//Parametre de la lumière
+				spotlightName.position.set( x, y, z);
+				spotlightName.angle = Math.PI / corner;
+				spotlightName.penumbra = 0.05;
+				spotlightName.decay = 2;
+				spotlightName.distance = dist;
+
+				//Parametre de l'ombre
+				spotlightName.castShadow = true;
+				spotlightName.shadow.mapSize.width = 2024;
+				spotlightName.shadow.mapSize.height = 2024;
+				//Zone d'ombre
+				spotlightName.shadow.camera.near = 10;
+				spotlightName.shadow.camera.far = 2000;
+
+				//Ajouter la lumière à la scène
+				return spotlightName;
+			}
             init();
-			animate();           
+			animate();
 		</script>
 	</body>
 </html>
